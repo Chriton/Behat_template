@@ -1,0 +1,63 @@
+default:
+    autoload:
+        - %paths.base%/../bootstrap/
+    suites:
+        default:
+            paths:
+                - %paths.base%/../features/Voya
+            contexts:
+                - Voya\Voya\VoyaContext:
+                    parameters:
+                        #note that the url must end with /
+                        public_url: https://magento.com/choose-your-demo
+                        screen_shot_path: %paths.base%/../reports/Voya/%time.now%/screenshots
+                - Behat\MinkExtension\Context\MinkContext
+            filters:
+                tags: "@smoke, @jenkins, @run, @test"
+
+
+    extensions:
+        Behat\MinkExtension:
+            #note that the url must end with /
+            base_url: http://google.com/
+
+#            browser_stack:
+#                username: 'clarkkalon1'
+#                access_key: 'HuQunztkN8mXq7XM2Hth'
+#                capabilities:
+#                #check here all browserstack capabilities:
+#                #https://www.browserstack.com/automate/capabilities
+#                #https://www.browserstack.com/list-of-browsers-and-platforms?product=automate
+#                #https://www.browserstack.com/automate/php
+#                    project: Voya
+#                    os: OS X
+##                    os: WINDOWS
+#                    os_version: El Capitan
+##                    os_version: 10
+##                    browser: IE
+##                    browserVersion: 11
+
+            default_session: selenium2
+            selenium2:
+                browser: chrome
+#                wd_host: http://127.0.0.1:4444/wd/hub
+#                wd_host: http://<USERNAME>:<KEY>@hub.browserstack.com/wd/hub
+#                wd_host: http://clarkkalon1:HuQunztkN8mXq7XM2Hth@hub.browserstack.com/wd/hub
+                capabilities:
+#                    overlappingCheckDisabled: true
+#                    version: ''
+        emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+            name: html
+            renderer: Twig
+            file_name: Index
+            print_args: true
+            print_outp: true
+            loop_break: true
+
+    formatters:
+        pretty:
+            verbose:  true
+            paths:    false
+            snippets: false
+        html:
+            output_path: %paths.base%/../reports/Voya/%time.now%/
